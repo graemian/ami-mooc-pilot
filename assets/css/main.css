@@ -838,3 +838,31 @@ span.progress-empty {
 .grayed-active {
   font-weight: bold;
 }
+
+/* Customizations */
+
+#gcb-header {
+    background-image: none;
+    background: none;
+}
+
+
+#gcb-header img {
+
+    padding: 4px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    background-color: white;
+
+}
+
+#gcb-nav-x {
+
+    background-image: -webkit-linear-gradient(top, #97000B 0,#4B0507 45px,#e5e5e5 46px,#f7f7f7 47px,#fff 48px)
+
+}
+
+.is-wrapper {
+
+     margin-top: 1em;
+}
