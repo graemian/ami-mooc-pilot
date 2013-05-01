@@ -85,7 +85,7 @@ institution:
 
   # Link and alt text for the logo of the course or your institution
   logo:
-    url: 'assets/img/ami-logo.png'
+    url: 'assets/img/ami-logo-half.png'
     alt_text: AMI Logo
 
 

@@ -847,14 +847,14 @@ span.progress-empty {
 }
 
 
-#gcb-header img {
+/*#gcb-header img {*/
 
-    padding: 4px;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    background-color: white;
+    /*padding: 4px;*/
+    /*padding-left: 0.5em;*/
+    /*padding-right: 0.5em;*/
+    /*background-color: white;*/
 
-}
+/*}*/
 
 #gcb-nav-x {
 
@@ -862,7 +862,7 @@ span.progress-empty {
 
 }
 
-.is-wrapper {
+/*.is-wrapper {*/
 
-     margin-top: 1em;
-}
+     /*margin-top: 1em;*/
+/*}*/
