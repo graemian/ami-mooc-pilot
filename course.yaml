@@ -29,7 +29,7 @@ course:
   admin_user_emails: '[graeme@graemep.me]'
 
   # Course title
-  title: 'Launchpad: Success at Work in 21st Century Africa'
+  title: 'Deprecated - DO NOT USE THIS COURSE!'
 
   # Main page blurb. (The '|' at the beginning enables multi-line input.)
   blurb: |
