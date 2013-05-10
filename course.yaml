@@ -26,34 +26,37 @@ course:
   # administrative users. Each email address must be placed between '[' and ']',
   # for example: '[test@example.com]'. Regular expressions are not supported,
   # exact match only.
-  admin_user_emails: '[graeme@graemep.me]'
+  admin_user_emails: ''
 
   # Course title
-  title: 'Deprecated - DO NOT USE THIS COURSE!'
+  title: 'Power Searching with Google'
 
   # Main page blurb. (The '|' at the beginning enables multi-line input.)
   blurb: |
-    Want to improve your management skills? Want to network with experienced managers from all over Africa? This course will introduce some of the key issues facing African managers today and help you discover how to unlock your full management potential.
+    Google Search makes it amazingly easy to find information. Come learn about
+    the powerful advanced tools we provide to help you find just the right
+    information when the stakes are high.
 
   # Information about the instructor to display on the main page.
-  instructor_details: 'Prof. Thabo Mosala  <br><br> Gordon Institute of Business Science (GIBS)'
+  instructor_details: 'Daniel Russell <br> Senior Research Scientist <br> Google, Inc.'
 
   # You can choose whether you want a video or an image on the main page.
   # If you specify both a video and an image link, then the video will take
   # priority. The image alt text allows the image to be understood by text-only
   # screen readers.
   main_video:
-    url: https://www.youtube.com/embed/ECiGelpyHGQ
+    url: https://www.youtube.com/embed/Kdg2drcUjYI?rel=0
   main_image:
     url: /assets/img/banner1.png
     alt_text: Photo of Dan Russell
 
   # Course start date.
-  start_date: 'June 1, 2013'
+  start_date: 'July 10, 2012'
 
   # Forum URL. For details, see
   #
   #     http://code.google.com/p/course-builder/wiki/WebForums.
+  forum_email: My-Course@googlegroups.com
   forum_url: https://groups.google.com/group/My-Course
 
   # Forum embedding URL. This link is used to embed the forum in an iframe on
@@ -65,6 +68,7 @@ course:
   # announcements. For details, see
   #
   #     http://code.google.com/p/course-builder/wiki/CreateEmailList
+  announcement_list_email: My-Course-Announce@googlegroups.com
   announcement_list_url: https://groups.google.com/group/My-Course-Announce
 
   # Locale for internationalization. See modules/i18n/resources/locale for
@@ -78,15 +82,15 @@ course:
 
 institution:
   # Name of your institution
-  name: 'African Management Initiative'
+  name: 'Add Your Institution Here'
 
   # URL of your institution's webpage
-  url: 'http://www.africanmanagers.org'
+  url: 'LINK_TO_YOUR_INSTITUTION_HERE'
 
   # Link and alt text for the logo of the course or your institution
   logo:
-    url: 'assets/img/ami-logo-half.png'
-    alt_text: AMI Logo
+    url: 'assets/img/your_logo_here.png'
+    alt_text: YOUR_LOGO_HERE
 
 
 #########################################
@@ -110,10 +114,10 @@ base:
   before_body_tag_ends: '<!-- base.before_body_tag_ends -->'
 
   # Whether to show a G+ button on the header of all pages.
-  show_gplus_button: False
+  show_gplus_button: True
 
   # Header phrase for the main navigation bar
-  nav_header: 'Management Education'
+  nav_header: 'Search Education'
 
   # Link to your privacy policy and terms of service
   privacy_terms_url: 'PRIVACY_POLICY_AND_TERMS_OF_SERVICE'

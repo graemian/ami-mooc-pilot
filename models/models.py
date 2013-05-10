@@ -19,6 +19,7 @@ __author__ = 'Pavel Simakov (psimakov@google.com)'
 import logging
 import appengine_config
 from config import ConfigProperty
+import counters
 from counters import PerfCounter
 from entities import BaseEntity
 from google.appengine.api import memcache
@@ -90,6 +91,14 @@ class MemcacheManager(object):
             memcache.set(key, value, ttl, namespace=namespace)
 
     @classmethod
+    def incr(cls, key, delta, namespace=None):
+        """Incr an item in memcache if memcache is enabled."""
+        if CAN_USE_MEMCACHE.value:
+            if not namespace:
+                namespace = appengine_config.DEFAULT_NAMESPACE_NAME
+            memcache.incr(key, delta, namespace=namespace, initial_value=0)
+
+    @classmethod
     def delete(cls, key, namespace=None):
         """Deletes an item from memcache if memcache is enabled."""
         if CAN_USE_MEMCACHE.value:
@@ -99,11 +108,38 @@ class MemcacheManager(object):
             memcache.delete(key, namespace=namespace)
 
 
+CAN_AGGREGATE_COUNTERS = ConfigProperty(
+    'gcb_can_aggregate_counters', bool,
+    'Whether or not to aggregate and record counter values in memcache. '
+    'This allows you to see counter values aggregated across all frontend '
+    'application instances. Without recording, you only see counter values '
+    'for one frontend instance you are connected to right now. Enabling '
+    'aggregation improves quality of performance metrics, but adds a small '
+    'amount of latency to all your requests.',
+    default_value=False)
+
+
+def incr_counter_global_value(name, delta):
+    if CAN_AGGREGATE_COUNTERS.value:
+        MemcacheManager.incr('counter:' + name, delta)
+
+
+def get_counter_global_value(name):
+    if CAN_AGGREGATE_COUNTERS.value:
+        return MemcacheManager.get('counter:' + name)
+    else:
+        return None
+
+counters.get_counter_global_value = get_counter_global_value
+counters.incr_counter_global_value = incr_counter_global_value
+
+
 class Student(BaseEntity):
     """Student profile."""
     enrolled_on = db.DateTimeProperty(auto_now_add=True, indexed=True)
-    user_id = db.StringProperty(indexed=False)
+    user_id = db.StringProperty(indexed=True)
     name = db.StringProperty(indexed=False)
+    additional_fields = db.TextProperty(indexed=False)
     is_enrolled = db.BooleanProperty(indexed=False)
 
     # Each of the following is a string representation of a JSON dict.
@@ -172,6 +208,23 @@ class Student(BaseEntity):
                             'found.' % user.email())
         student.is_enrolled = is_enrolled
         student.put()
+
+    def get_key(self):
+        if not self.user_id:
+            raise Exception('Student instance has no user_id set.')
+        return db.Key.from_path(Student.kind(), self.user_id)
+
+    @classmethod
+    def get_student_by_user_id(cls, user_id):
+        students = cls.all().filter(cls.user_id.name, user_id).fetch(limit=2)
+        if len(students) == 2:
+            raise Exception(
+                'There is more than one student with user_id %s' % user_id)
+        return students[0] if students else None
+
+    def has_same_key_as(self, key):
+        """Checks if the key of the student and the given key are equal."""
+        return key == self.get_key()
 
 
 class EventEntity(BaseEntity):
