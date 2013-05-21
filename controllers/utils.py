@@ -300,8 +300,13 @@ class PreviewHandler(BaseHandler):
         """Handles GET requests."""
         user = users.get_current_user()
         if not user:
+            # self.template_value['loginUrl'] = (
+            #     users.create_login_url(self.request.uri))
+
             self.template_value['loginUrl'] = (
                 users.create_login_url(self.request.uri))
+                #users.create_login_url(self.request.uri, None, 'http://dev.africanmanagers.org'))
+
         else:
             self.template_value['email'] = user.email()
             self.template_value['logoutUrl'] = (

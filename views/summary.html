@@ -1,29 +1,167 @@
-<div class="gcb-col-55">
+<div class="summary">
 
-  <h1 class="product-headers">
-    {{course_info.course.title}}
+
+     <h1 class="product-headers title">
+    Launchpad | <span style="font-weight: 100">Success at Work in 21st Century Africa</span>
   </h1>
 
-  <h2 class="product-headers">
-  {{course_info.course.blurb | gcb_tags}}
-  </h2>
+    <div style="margin-bottom: 5em">
 
-  <h2 class="bio-headers">
-    {{course_info.course.instructor_details | safe}}
-  </h2>
+        <div style="float: right; margin-left: 1em">
+    <img src="/assets/img/buyani.jpg"/>
+
+          <h2 class="product-headers" style="text-align: center">  Buyani Zwane</h2>
+
+    </div>
+
+
+<div style="float: right; margin-left: 1em">
+    <img src="/assets/img/thabo.jpg"/>
+
+    <h2 class="product-headers" style="text-align: center">Thabo Mosala</h2>
+    </div>
+
+
+        <h2 class="product-headers">
+        Want to sharpen your management skills? Accelerate your career? Expand your business?
+    </h2>
+    <h2 class="product-headers">
+        Sign up for Launchpad, AMI’s first free online management course, delivered by Thabo Mosala and Buyani Zwane, both lecturers at the Gordon Institute of Business Science in  South Africa.
+    </h2>
+    <h2 class="product-headers">
+        Launchpad is the first in a series of module covering the foundations of good management in an African context. This module will focus on workplace skills such as self-management, goal setting, effective communication and influencing others.
+    </h2>
+    <h2 class="product-headers">
+        Launchpad is also the first management course in Africa open to anyone, anywhere with an Internet connection, for free.
+    </h2>
+    <h2 class="product-headers">
+        Join us in making history!
+    </h2>
+
+
+        </div>
+
+<div class="cols" style="
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
+  column-count: 3;
+">
+    <div>
+        <h3>WHAT?</h3>
+        <p>
+            The African Management Initiative is partnering with leading African business schools to deliver affordable, high-quality and practical training courses to managers and entrepreneurs across the continent.
+        </p>
+        <p>
+            The courses blend online content with offline peer learning. They are designed specifically for African managers and encourage participants to apply what they learn on the job.
+        </p>
+        <p>
+            AMI courses feature world-class content delivered online by faculty from Africa’s leading business schools (Gordon Institute of Business Science, South Africa; Lagos Business School, Nigeria; Strathmore Business School, Kenya).
+        </p>
+    </div>
+
+    <div>
+        <h3>
+            WHO?
+        </h3>
+        <p>
+            Launchpad, our first module, is aimed at anyone aiming to sharpen their management skills - young managers and knowledge workers who want to advance their career, small business owners looking to expand their company or even executives who need a refresher.
+        </p>
+    </div>
+
+    <div>
+        <h3>
+            WHEN?
+        </h3>
+        <p>
+            We hope to launch the pilot Launchpad module in June-July 2013. <a href="http://www.africanmanagers.org/join-ami">Join AMI</a> to receive updates on the launch date.
+        </p>
+        <p>
+
+            Launchpad will involve approximately 5 hours of work. You will have two weeks to complete the course from a start date to be determined. You will work at your own pace, accessing materials whenever you like.
+        </p>
+    </div>
+    <div>
+        <h3>
+
+            HOW?
+        </h3>
+        <p>
+            Launchpad is open to anyone, anywhere with an Internet connection, for free. You can even do it on your mobile phone. You can take the course on your own online, or as part of an offline AMI Learning Lab. We encourage everyone who signs up to do the course independently to work through it with a ‘buddy’ – either a colleague, friend or mentor. Your buddy or manager will need to sign off on your final assessment, so this is important.
+        </p>
+        <p>
+
+            At AMI Learning Labs, groups of managers and entrepreneurs will work through the course together, offline, with a facilitator. We are piloting the Learning Lab concept in Kenya. <a href="http://www.africanmanagers.org/join-ami">Join AMI</a> for updates on Learning Labs near you.
+        </p>
+    </div>
+    <div>
+
+        <h3>
+
+            WHAT WILL I NEED?
+        </h3>
+        <p>
+            To do the course individually, you will need a reliable Internet connection, ideally broadband, either on a PC, laptop, tablet or web-enabled phone. You can work through the course at work, at home or at an Internet café. We will keep bandwidth requirements as low as possible.
+        </p>
+        <p>
+            If you are doing the course individually (not as part of a Learning Lab), then you will need to find a ‘buddy’ – a colleague, mentor, your boss or a friend. You will work through the content together.
+
+        </p>
+        <p>
+            CLICK HERE FOR MORE DETAILS (LINK TO LOGISTICS PAGE)
+        </p>
+
+        </div>
+     <div>
+
+    <h3>MANAGERS WILL:</h3>
+
+    <ul>
+        <li>
+            Work through engaging video, audio or text content at their own pace
+        </li>
+        <li>
+            Interact with content and verify understanding with informal quizzes
+        </li>
+        <li>
+            Reinforce knowledge by stopping, reflecting and applying lessons learnt through practical exercises and activities
+        </li>
+        <li>
+            Interact with peers and form networks across Africa by joining AMI’s Virtual Campus or in facilitated offline groups
+        </li>
+    </ul>
+
+    </div>
 
 </div>
 
-<div class="gcb-col-5">
+<!--<div class="gcb-col-55">-->
 
-  {% if course_info.course.main_video %}
-    {# I18N: Alt text for an embedded YouTube video player. #}
-    <iframe class="youtube-player" type="text/html" width="460"
-     title="{{ gettext('YouTube Video Player') }}"
-     height="300" src="{{course_info.course.main_video.url}}"
-     frameborder="0" allowfullscreen></iframe>
-  {% else %}
-    <img height="300" src="{{course_info.course.main_image.url}}">
-  {% endif %}
+  <!--<h1 class="product-headers">-->
+    <!--{{course_info.course.title}}-->
+  <!--</h1>-->
+
+  <!--<h2 class="product-headers">-->
+  <!--{{course_info.course.blurb | gcb_tags}}-->
+  <!--</h2>-->
+
+  <!--<h2 class="bio-headers">-->
+    <!--{{course_info.course.instructor_details | safe}}-->
+  <!--</h2>-->
+
+<!--</div>-->
+
+<!--<div class="gcb-col-5">-->
+
+  <!--{% if course_info.course.main_video %}-->
+    <!--{# I18N: Alt text for an embedded YouTube video player. #}-->
+    <!--<iframe class="youtube-player" type="text/html" width="460"-->
+     <!--title="{{ gettext('YouTube Video Player') }}"-->
+     <!--height="300" src="{{course_info.course.main_video.url}}"-->
+     <!--frameborder="0" allowfullscreen></iframe>-->
+  <!--{% else %}-->
+    <!--<img height="300" src="{{course_info.course.main_image.url}}">-->
+  <!--{% endif %}-->
+
+<!--</div>-->
 
 </div>
