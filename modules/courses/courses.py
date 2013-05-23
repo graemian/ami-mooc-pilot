@@ -42,6 +42,7 @@ def register_module():
         ('/course', lessons.CourseHandler),
         ('/forum', utils.ForumHandler),
         ('/preview', utils.PreviewHandler),
+        ('/about', utils.AboutHandler),
         ('/register', utils.RegisterHandler),
         ('/review', lessons.ReviewHandler),
         ('/reviewdashboard', lessons.ReviewDashboardHandler),

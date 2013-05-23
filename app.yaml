@@ -1,5 +1,5 @@
-application: ami-mooc-pilot-dev  # FIXME: Replace this with your application id
-version: 1
+application: ami-mooc-pilot  # FIXME: Replace this with your application id
+version: 3
 runtime: python27
 api_version: 1
 threadsafe: false

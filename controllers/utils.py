@@ -292,6 +292,14 @@ class BaseRESTHandler(BaseHandler):
             return False
         return True
 
+class AboutHandler(BaseHandler):
+    """Handler for viewing course preview."""
+
+    def get(self):
+
+        self.template_value['navbar'] = {'about': True}
+        self.render('about.html')
+
 
 class PreviewHandler(BaseHandler):
     """Handler for viewing course preview."""
