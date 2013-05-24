@@ -4,8 +4,14 @@
         Launchpad | <span style="font-weight: 100">Success at Work in 21st Century Africa</span>
     </h1>
 
-    <div style="float: right; margin-left: 1em">
-        <iframe width="560" height="315" src="{{course_info.course.main_video.url}}" frameborder="0" allowfullscreen></iframe>
+    <div style="float: right; margin-left: 1em; text-align: center">
+
+        <iframe width="560" height="315" src="{{course_info.course.main_video.url}}" frameborder="0" allowfullscreen style="display: block"></iframe>
+
+        <a class="gcb-button gcb-button-large" href="register" role="button">
+          Register Now
+        </a>
+
     </div>
 
     {{course_info.course.blurb | safe}}
