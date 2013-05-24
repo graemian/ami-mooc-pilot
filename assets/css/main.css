@@ -456,7 +456,7 @@ a.gcb-button-action {
 
 #gcb-nav-x li {
   float: left;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.33;
   margin: 0 30px 0 0;
   padding: 13px 0 17px;
@@ -865,7 +865,11 @@ span.progress-empty {
 
 #gcb-nav-x {
 
-    background-image: -webkit-linear-gradient(top, #97000B 0,#4B0507 45px,#e5e5e5 46px,#f7f7f7 47px,#fff 48px)
+    /*background-image: -webkit-linear-gradient(top, #97000B 0,#4B0507 45px,#e5e5e5 46px,#f7f7f7 47px,#fff 48px)*/
+
+    background-color: #970004;
+    background-image: none;
+    margin-bottom: 0.5em;
 
 }
 
@@ -885,6 +889,13 @@ span.progress-empty {
 .title {
 
     text-transform: uppercase;
+    font-family: "Helvetica Neue",Helvetica;
+
+}
+
+
+.gcb-header h2 {
+
     font-family: "Helvetica Neue",Helvetica;
 
 }

@@ -179,6 +179,11 @@
             {# I18N: Navbar tab. #}
             <a href="course">{{ gettext('Course') }}</a>
           </li>
+
+          <li {% if navbar.about %}class='active'{% endif %}>
+            <a href="about">About</a>
+          </li>
+
           {% if course_info.course.forum_embed_url %}
           <li {% if navbar.forum %}class='active'{% endif %}>
             {# I18N: Navbar tab. #}

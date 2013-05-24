@@ -1,27 +1,9 @@
-{% extends 'base_registration.html' %}
+{% extends 'base.html' %}
 
 {% block top_content %}
-<div class="gcb-cols">
-    <div class="gcb-col-11 gcb-aside">
-
-
-        <div style="float: left; margin-right: 1em">
-            <img src="/assets/img/thabo.jpg">
-
-            <h2 class="product-headers" style="text-align: center">Thabo Mosala</h2>
-        </div>
-
-
-        <div style="float: left; margin-right: 1em">
-            <img src="/assets/img/buyani.jpg">
-
-            <h2 class="product-headers" style="text-align: center">  Buyani Zwane</h2>
-
-        </div>
-
-
-
+    <div class="gcb-cols">
+      <div class="gcb-col-11 gcb-aside">
+        {{ course_info.course.about | safe }}
+      </div>
     </div>
-</div>
-{{course_info.preview.after_top_content_ends | safe}}
 {% endblock %}

@@ -274,6 +274,24 @@ def create_course_registry():
         extra_schema_dict_values={
             'supportCustomTags': common.tags.CAN_USE_DYNAMIC_TAGS.value}))
     homepage_opts.add_property(SchemaField(
+        'course:blurb', 'Course Intro', 'html', optional=True,
+        description='Text, shown on the course homepage, that explains what '
+        'the course is about.',
+        extra_schema_dict_values={
+            'supportCustomTags': common.tags.CAN_USE_DYNAMIC_TAGS.value}))
+    homepage_opts.add_property(SchemaField(
+        'course:details', 'Course Details', 'html', optional=True,
+        description='Text, shown on the course homepage, that explains what '
+        'the course is about.',
+        extra_schema_dict_values={
+            'supportCustomTags': common.tags.CAN_USE_DYNAMIC_TAGS.value}))
+    homepage_opts.add_property(SchemaField(
+        'course:about', 'Course About', 'html', optional=True,
+        description='Text, shown on the course homepage, that explains what '
+        'the course is about.',
+        extra_schema_dict_values={
+            'supportCustomTags': common.tags.CAN_USE_DYNAMIC_TAGS.value}))
+    homepage_opts.add_property(SchemaField(
         'course:main_video:url', 'Course Video', 'url', optional=True,
         description='URL for the preview video shown on the course homepage.'))
     homepage_opts.add_property(SchemaField(

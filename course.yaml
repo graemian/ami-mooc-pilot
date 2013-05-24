@@ -33,9 +33,126 @@ course:
 
   # Main page blurb. (The '|' at the beginning enables multi-line input.)
   blurb: |
-    Google Search makes it amazingly easy to find information. Come learn about
-    the powerful advanced tools we provide to help you find just the right
-    information when the stakes are high.
+    <p>
+        Want to sharpen your management skills? Accelerate your career? Expand your business?
+    </p>
+    <p>
+        Sign up for Launchpad, AMI’s first free online management course, delivered by Thabo Mosala and Buyani Zwane, both lecturers at the Gordon Institute of Business Science in  South Africa.
+    </p>
+    <p>
+        Launchpad is the first in a series of module covering the foundations of good management in an African context. This module will focus on workplace skills such as self-management, goal setting, effective communication and influencing others.
+    </p>
+    <p>
+        Launchpad is also the first management course in Africa open to anyone, anywhere with an Internet connection, for free.
+    </p>
+    <p>
+        Join us in making history!
+    </p>
+
+  details: |
+
+    <div>
+        <h3>WHAT?</h3>
+        <p>
+            The African Management Initiative is partnering with leading African business schools to deliver affordable, high-quality and practical training courses to managers and entrepreneurs across the continent.
+        </p>
+        <p>
+            The courses blend online content with offline peer learning. They are designed specifically for African managers and encourage participants to apply what they learn on the job.
+        </p>
+        <p>
+            AMI courses feature world-class content delivered online by faculty from Africa’s leading business schools (Gordon Institute of Business Science, South Africa; Lagos Business School, Nigeria; Strathmore Business School, Kenya).
+        </p>
+    </div>
+
+    <div>
+        <h3>
+            WHO?
+        </h3>
+        <p>
+            Launchpad, our first module, is aimed at anyone aiming to sharpen their management skills - young managers and knowledge workers who want to advance their career, small business owners looking to expand their company or even executives who need a refresher.
+        </p>
+    </div>
+
+    <div>
+        <h3>
+            WHEN?
+        </h3>
+        <p>
+            We hope to launch the pilot Launchpad module in June-July 2013. <a href="http://www.africanmanagers.org/join-ami">Join AMI</a> to receive updates on the launch date.
+        </p>
+        <p>
+
+            Launchpad will involve approximately 5 hours of work. You will have two weeks to complete the course from a start date to be determined. You will work at your own pace, accessing materials whenever you like.
+        </p>
+    </div>
+    <div>
+        <h3>
+
+            HOW?
+        </h3>
+        <p>
+            Launchpad is open to anyone, anywhere with an Internet connection, for free. You can even do it on your mobile phone. You can take the course on your own online, or as part of an offline AMI Learning Lab. We encourage everyone who signs up to do the course independently to work through it with a ‘buddy’ – either a colleague, friend or mentor. Your buddy or manager will need to sign off on your final assessment, so this is important.
+        </p>
+        <p>
+
+            At AMI Learning Labs, groups of managers and entrepreneurs will work through the course together, offline, with a facilitator. We are piloting the Learning Lab concept in Kenya. <a href="http://www.africanmanagers.org/join-ami">Join AMI</a> for updates on Learning Labs near you.
+        </p>
+    </div>
+    <div style="border: 1px solid black; padding: 1em; margin-bottom: 1em">
+
+        <h3>MANAGERS WILL:</h3>
+
+        <ul>
+            <li>
+                Work through engaging video, audio or text content at their own pace
+            </li>
+            <li>
+                Interact with content and verify understanding with informal quizzes
+            </li>
+            <li>
+                Reinforce knowledge by stopping, reflecting and applying lessons learnt through practical exercises and activities
+            </li>
+            <li>
+                Interact with peers and form networks across Africa by joining AMI’s Virtual Campus or in facilitated offline groups
+            </li>
+        </ul>
+
+    </div>
+
+    <div>
+
+        <h3>
+
+            WHAT WILL I NEED?
+        </h3>
+        <p>
+            To do the course individually, you will need a reliable Internet connection, ideally broadband, either on a PC, laptop, tablet or web-enabled phone. You can work through the course at work, at home or at an Internet café. We will keep bandwidth requirements as low as possible.
+        </p>
+        <p>
+            If you are doing the course individually (not as part of a Learning Lab), then you will need to find a ‘buddy’ – a colleague, mentor, your boss or a friend. You will work through the content together.
+
+        </p>
+        <p>
+            CLICK HERE FOR MORE DETAILS (LINK TO LOGISTICS PAGE)
+        </p>
+
+    </div>
+
+  about: |
+    <div style="float: left; margin-right: 1em">
+        <img src="/assets/img/thabo.jpg">
+
+        <h2 class="product-headers" style="text-align: center">Thabo Mosala</h2>
+    </div>
+
+
+    <div style="float: left; margin-right: 1em">
+        <img src="/assets/img/buyani.jpg">
+
+        <h2 class="product-headers" style="text-align: center">  Buyani Zwane</h2>
+
+    </div>
+
 
   # Information about the instructor to display on the main page.
   instructor_details: 'Daniel Russell <br> Senior Research Scientist <br> Google, Inc.'
@@ -45,7 +162,7 @@ course:
   # priority. The image alt text allows the image to be understood by text-only
   # screen readers.
   main_video:
-    url: https://www.youtube.com/embed/Kdg2drcUjYI?rel=0
+    url: http://www.youtube.com/embed/KdivEtfq8OI
   main_image:
     url: /assets/img/banner1.png
     alt_text: Photo of Dan Russell
@@ -82,8 +199,7 @@ course:
 
 institution:
   # Name of your institution
-  name: 'Add Your Institution Here'
-
+  name: 'abc'
   # URL of your institution's webpage
   url: 'LINK_TO_YOUR_INSTITUTION_HERE'
 
@@ -111,7 +227,22 @@ base:
   before_navbar_ends: '<!-- base.before_navbar_ends -->'
   after_top_content_ends: '<!-- base.after_top_content_ends -->'
   after_main_content_ends: '<!-- base.after_main_content_ends -->'
-  before_body_tag_ends: '<!-- base.before_body_tag_ends -->'
+  before_body_tag_ends: |
+    <p>
+        Want to sharpen your management skills? Accelerate your career? Expand your business?
+    </p>
+    <p>
+        Sign up for Launchpad, AMI’s first free online management course, delivered by Thabo Mosala and Buyani Zwane, both lecturers at the Gordon Institute of Business Science in  South Africa.
+    </p>
+    <p>
+        Launchpad is the first in a series of module covering the foundations of good management in an African context. This module will focus on workplace skills such as self-management, goal setting, effective communication and influencing others.
+    </p>
+    <p>
+        Launchpad is also the first management course in Africa open to anyone, anywhere with an Internet connection, for free.
+    </p>
+    <p>
+        Join us in making history!
+    </p>
 
   # Whether to show a G+ button on the header of all pages.
   show_gplus_button: True

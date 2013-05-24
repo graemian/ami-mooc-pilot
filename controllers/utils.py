@@ -292,14 +292,6 @@ class BaseRESTHandler(BaseHandler):
             return False
         return True
 
-class AboutHandler(BaseHandler):
-    """Handler for viewing course preview."""
-
-    def get(self):
-
-        self.template_value['navbar'] = {'about': True}
-        self.render('about.html')
-
 
 class PreviewHandler(BaseHandler):
     """Handler for viewing course preview."""
@@ -326,6 +318,28 @@ class PreviewHandler(BaseHandler):
             self.redirect('/course')
         else:
             self.render('preview.html')
+
+class AboutHandler(BaseHandler):
+    """Handler for viewing course preview."""
+
+    def get(self):
+
+        user = users.get_current_user()
+        if not user:
+            # self.template_value['loginUrl'] = (
+            #     users.create_login_url(self.request.uri))
+
+            self.template_value['loginUrl'] = (
+                users.create_login_url(self.request.uri))
+                #users.create_login_url(self.request.uri, None, 'http://dev.africanmanagers.org'))
+
+        else:
+            self.template_value['email'] = user.email()
+            self.template_value['logoutUrl'] = (
+                users.create_logout_url(self.request.uri))
+
+        self.template_value['navbar'] = {'about': True}
+        self.render('about.html')
 
 
 class RegisterHandler(BaseHandler):
