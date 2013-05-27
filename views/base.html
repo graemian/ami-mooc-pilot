@@ -159,7 +159,7 @@
         {% elif loginUrl %}
         <div class="pull-right" style="font-size: larger;">
           {# I18N: Navbar text. #}
-          <a href="{{ loginUrl }}">{{ gettext('Login') }}</a>
+          <!--<a href="{{ loginUrl }}">{{ gettext('Login') }}</a>-->
         </div>
         {% endif %}
       </div>
@@ -171,10 +171,10 @@
       <div class="gcb-aux">
         <ul>
           {{course_info.base.after_navbar_begins | safe}}
-          <li {% if navbar.announcements %}class='active'{% endif %}>
-            {# I18N: Navbar tab. #}
-            <a href="announcements">{{ gettext('Announcements') }}</a>
-          </li>
+          <!--<li {% if navbar.announcements %}class='active'{% endif %}>-->
+            <!--{# I18N: Navbar tab. #}-->
+            <!--<a href="announcements">{{ gettext('Announcements') }}</a>-->
+          <!--</li>-->
           <li {% if navbar.course %}class='active'{% endif %}>
             {# I18N: Navbar tab. #}
             <a href="course">{{ gettext('Course') }}</a>
@@ -235,16 +235,29 @@
             <li>
               <a href="{{course_info.institution.url}}">{{course_info.institution.name}}</a>
             </li>
-            <li>
-              <a href="{{course_info.base.privacy_terms_url}}">
-                {# I18N: Link at the bottom of each page to the privacy and 'Terms and Conditions' pages. #}
-                {{ gettext('Privacy & Terms') }}
-              </a>
-            </li>
+            <!--<li>-->
+              <!--<a href="{{course_info.base.privacy_terms_url}}">-->
+                <!--{# I18N: Link at the bottom of each page to the privacy and 'Terms and Conditions' pages. #}-->
+                <!--{{ gettext('Privacy & Terms') }}-->
+              <!--</a>-->
+            <!--</li>-->
           </ul>
         </div>
       </div>
     </div>
     {{course_info.base.before_body_tag_ends | safe}}
+
+  <!-- PI button -->
+    <div style="
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+    ">
+
+        <button class="btn pi" onclick="javascript:window.location = '{{ loginUrl }}'">&pi;</button>
+
+    </div>
  </body>
 </html>

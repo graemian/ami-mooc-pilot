@@ -300,12 +300,12 @@ class PreviewHandler(BaseHandler):
         """Handles GET requests."""
         user = users.get_current_user()
         if not user:
-            # self.template_value['loginUrl'] = (
-            #     users.create_login_url(self.request.uri))
 
             self.template_value['loginUrl'] = (
                 users.create_login_url(self.request.uri))
-                #users.create_login_url(self.request.uri, None, 'http://dev.africanmanagers.org'))
+
+            # self.template_value['fedLoginUrl'] = (
+            #     users.create_login_url(self.request.uri, None, 'http://dev-hidden.africanmanagers.org'))
 
         else:
             self.template_value['email'] = user.email()
@@ -319,6 +319,18 @@ class PreviewHandler(BaseHandler):
         else:
             self.render('preview.html')
 
+class SubmitHandler(PreviewHandler):
+    """Handler for viewing course preview."""
+
+    def get(self):
+
+        self.template_value['submit'] = True;
+        self.template_value['wufooEmail'] = self.request.get('wufooEmail');
+
+
+        return super(SubmitHandler, self).get();
+
+
 class AboutHandler(BaseHandler):
     """Handler for viewing course preview."""
 
@@ -326,12 +338,12 @@ class AboutHandler(BaseHandler):
 
         user = users.get_current_user()
         if not user:
-            # self.template_value['loginUrl'] = (
-            #     users.create_login_url(self.request.uri))
 
             self.template_value['loginUrl'] = (
                 users.create_login_url(self.request.uri))
-                #users.create_login_url(self.request.uri, None, 'http://dev.africanmanagers.org'))
+
+            # self.template_value['fedLoginUrl'] = (
+            #     users.create_login_url(self.request.uri, None, 'http://dev-hidden.africanmanagers.org'))
 
         else:
             self.template_value['email'] = user.email()
@@ -340,6 +352,16 @@ class AboutHandler(BaseHandler):
 
         self.template_value['navbar'] = {'about': True}
         self.render('about.html')
+
+
+class WufooHandler(BaseHandler):
+    """Handler for viewing course preview."""
+
+    def get(self):
+
+        self.template_value['navbar'] = {'about': True}
+        self.render('wufoo.html')
+
 
 
 class RegisterHandler(BaseHandler):
