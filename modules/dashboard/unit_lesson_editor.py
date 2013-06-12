@@ -833,7 +833,7 @@ class LessonRESTHandler(BaseRESTHandler):
                 'label': 'Video ID',
                 'description': messages.LESSON_VIDEO_ID_DESCRIPTION}),
             (['properties', 'notes', '_inputex'], {
-                'label': 'Notes',
+                'label': 'Notes - DO NOT USE',
                 'description': messages.LESSON_NOTES_DESCRIPTION}),
             (['properties', 'activity_title', '_inputex'], {
                 'label': 'Activity Title',
