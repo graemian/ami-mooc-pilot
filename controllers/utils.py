@@ -354,6 +354,20 @@ class AboutHandler(BaseHandler):
         self.render('about.html')
 
 
+class MaterialHandler(BaseHandler):
+
+    def get(self):
+
+        self.redirect(
+            str(
+                "http://www.dropbox.com?l=" +
+                self.request.get('lesson') +
+                "&u=" +
+                self.request.get('unit')
+            )
+        )
+
+
 class AmiRegHandler(BaseHandler):
     """Handler for viewing course preview."""
 

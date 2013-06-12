@@ -44,6 +44,7 @@ def register_module():
         ('/preview', utils.PreviewHandler),
         ('/submit', utils.SubmitHandler),
         ('/about', utils.AboutHandler),
+        ('/material', utils.MaterialHandler),
         ('/wufoo', utils.WufooHandler),
         ('/ami', utils.AmiRegHandler),
         ('/register', utils.RegisterHandler),

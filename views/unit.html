@@ -76,12 +76,11 @@
               </div>
               <div class="gcb-col-3">
                 <p style="float:right; margin-top: 0px;">
-                  {% if lesson.notes %}
-                  <a role="button" class="gcb-button gcb-button-primary" id="lessonNotesLink" href="{{ lesson.notes }}" target="_blank">
-                    {# I18N: Link to a text version of a lesson video. #}
-                    {{ gettext('Text Version') }}
+
+                  <a role="button" class="gcb-button gcb-button-primary" id="lessonNotesLink" href="/material?type=slides&unit={{unit.index}}&lesson={{lesson.index}}" target="_blank">
+                    Slides
                   </a>
-                  {% endif %}
+
                 </p>
               </div>
             </div><!-- /gcb-cols -->
