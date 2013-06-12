@@ -358,12 +358,33 @@ class MaterialHandler(BaseHandler):
 
     def get(self):
 
+        folder=""
+        extension=""
+
+        if "slides" in self.request.uri:
+            folder="Slides"
+            extension="pdf"
+        elif "transcript" in self.request.uri:
+            folder="Transcripts"
+            extension="pdf"
+        elif "audio" in self.request.uri:
+            folder="Audio%20files"
+            extension="m4a"
+
+        unit = int(self.request.get('unit'))
+        lesson = int(self.request.get('lesson'))
+
+        filename= "U%02dL%02d" % (unit, lesson);
+
+
         self.redirect(
             str(
-                "http://www.dropbox.com?l=" +
-                self.request.get('lesson') +
-                "&u=" +
-                self.request.get('unit')
+                "https://dl.dropboxusercontent.com/u/18103346/Launchpad%20materials/" +
+                folder +
+                "/" +
+                filename +
+                "." +
+                extension
             )
         )
 
