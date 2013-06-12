@@ -45,6 +45,7 @@ def register_module():
         ('/submit', utils.SubmitHandler),
         ('/about', utils.AboutHandler),
         ('/wufoo', utils.WufooHandler),
+        ('/ami', utils.AmiRegHandler),
         ('/register', utils.RegisterHandler),
         ('/review', lessons.ReviewHandler),
         ('/reviewdashboard', lessons.ReviewDashboardHandler),

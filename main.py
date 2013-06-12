@@ -36,6 +36,7 @@ import modules.review.review
 
 # use this flag to control debug only features
 debug = not appengine_config.PRODUCTION_MODE
+#debug = True
 
 # init and enable all known modules
 modules.oeditor.oeditor.register_module().enable()

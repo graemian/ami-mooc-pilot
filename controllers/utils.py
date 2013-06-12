@@ -354,6 +354,34 @@ class AboutHandler(BaseHandler):
         self.render('about.html')
 
 
+class AmiRegHandler(BaseHandler):
+    """Handler for viewing course preview."""
+
+    def get(self):
+
+        self.template_value['navbar'] = {'about': True}
+
+
+        user = users.get_current_user()
+        if not user:
+
+            self.template_value['loginUrl'] = (
+                users.create_login_url(self.request.uri, None, 'http://www.graemep.co.za/ami.php'))
+
+        else:
+
+            self.template_value['email'] = user.email()
+            self.template_value['logoutUrl'] = (
+                users.create_logout_url(self.request.uri))
+
+
+
+
+        self.render('ami.html')
+
+
+
+
 class WufooHandler(BaseHandler):
     """Handler for viewing course preview."""
 
