@@ -304,6 +304,9 @@ class PreviewHandler(BaseHandler):
             self.template_value['loginUrl'] = (
                 users.create_login_url(self.request.uri))
 
+            self.template_value['enroll'] = True
+
+
             # self.template_value['fedLoginUrl'] = (
             #     users.create_login_url(self.request.uri, None, 'http://dev-hidden.africanmanagers.org'))
 
