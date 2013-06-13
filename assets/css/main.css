@@ -528,7 +528,8 @@ a.gcb-button-action, button.gcb-button-action {
   border: solid #babcc0;
   border-width: 0 0 0 1px;
   float: left;
-  font-family: "open sans", arial, sans-serif;
+  /*font-family: "open sans", arial, sans-serif;*/
+  font-family: 'Oswald', sans-serif;
   font-size: 27px;
   font-weight: 300;
   line-height: 1.52;
@@ -553,13 +554,15 @@ a.gcb-button-action, button.gcb-button-action {
 /* Styles for course summary headers. */
 .gcb-product-headers-large {
   color: #dd4b39;
-  font-family: "open sans",arial,sans-serif;
+  /*font-family: "open sans",arial,sans-serif;*/
+  font-family: 'Oswald', sans-serif;
   font-size: 25px;
   font-weight: normal;
   margin: 10px 7px;
 }
 .gcb-product-headers, .gcb-bio-headers {
-  font-family: "open sans",arial,sans-serif;
+  /*font-family: "open sans",arial,sans-serif;*/
+  font-family: 'Oswald', sans-serif;
   font-size: 16px;
   font-weight: normal;
   margin: .4em 0 0;
@@ -742,4 +745,7 @@ div:hover > .pi {
 
 }
 
+.gcb-course-image {
+    padding-left: 10px;
+}
 
