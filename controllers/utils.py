@@ -304,8 +304,6 @@ class PreviewHandler(BaseHandler):
             self.template_value['loginUrl'] = (
                 users.create_login_url(self.request.uri))
 
-            self.template_value['enroll'] = True
-
 
             # self.template_value['fedLoginUrl'] = (
             #     users.create_login_url(self.request.uri, None, 'http://dev-hidden.africanmanagers.org'))
@@ -320,18 +318,10 @@ class PreviewHandler(BaseHandler):
         if user and Student.get_enrolled_student_by_email(user.email()):
             self.redirect('/course')
         else:
+
+            self.template_value['enroll']=True;
             self.render('preview.html')
 
-class SubmitHandler(PreviewHandler):
-    """Handler for viewing course preview."""
-
-    def get(self):
-
-        self.template_value['submit'] = True;
-        self.template_value['wufooEmail'] = self.request.get('wufooEmail');
-
-
-        return super(SubmitHandler, self).get();
 
 
 class AboutHandler(BaseHandler):
@@ -390,44 +380,6 @@ class MaterialHandler(BaseHandler):
                 extension
             )
         )
-
-
-class AmiRegHandler(BaseHandler):
-    """Handler for viewing course preview."""
-
-    def get(self):
-
-        self.template_value['navbar'] = {'about': True}
-
-
-        user = users.get_current_user()
-        if not user:
-
-            self.template_value['loginUrl'] = (
-                users.create_login_url(self.request.uri, None, 'http://www.graemep.co.za/ami.php'))
-
-        else:
-
-            self.template_value['email'] = user.email()
-            self.template_value['logoutUrl'] = (
-                users.create_logout_url(self.request.uri))
-
-
-
-
-        self.render('ami.html')
-
-
-
-
-class WufooHandler(BaseHandler):
-    """Handler for viewing course preview."""
-
-    def get(self):
-
-        self.template_value['navbar'] = {'about': True}
-        self.render('wufoo.html')
-
 
 
 class RegisterHandler(BaseHandler):
