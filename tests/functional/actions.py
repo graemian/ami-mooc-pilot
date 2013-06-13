@@ -27,7 +27,7 @@ from controllers import sites
 from controllers import utils
 import main
 from models import config
-import suite
+from tests import suite
 from google.appengine.api import namespace_manager
 
 
@@ -69,7 +69,7 @@ class TestBase(suite.AppEngineTestBase):
 
     def assert_default_namespace(self):
         ns = namespace_manager.get_namespace()
-        if not ns == appengine_config.DEFAULT_NAMESPACE_NAME:
+        if ns != appengine_config.DEFAULT_NAMESPACE_NAME:
             raise Exception('Expected default namespace, found: %s' % ns)
 
     def setUp(self):  # pylint: disable-msg=g-bad-name
@@ -168,7 +168,7 @@ class TestBase(suite.AppEngineTestBase):
 
 
 def assert_equals(actual, expected):
-    if not expected == actual:
+    if expected != actual:
         raise Exception('Expected \'%s\', does not match actual \'%s\'.' %
                         (expected, actual))
 
@@ -185,7 +185,7 @@ def assert_contains(needle, haystack, collapse_whitespace=False):
     haystack = to_unicode(haystack)
     if collapse_whitespace:
         haystack = ' '.join(haystack.replace('\n', ' ').split())
-    if not needle in haystack:
+    if needle not in haystack:
         raise Exception('Can\'t find \'%s\' in \'%s\'.' % (needle, haystack))
 
 
@@ -193,7 +193,7 @@ def assert_contains_all_of(needles, haystack):
     haystack = to_unicode(haystack)
     for needle in needles:
         needle = to_unicode(needle)
-        if not needle in haystack:
+        if needle not in haystack:
             raise Exception(
                 'Can\'t find \'%s\' in \'%s\'.' % (needle, haystack))
 
@@ -311,7 +311,7 @@ def view_preview(browser):
     response = browser.get('preview')
     assert_contains(' the stakes are high.', response.body)
     assert_contains(
-        '<li><p class="top_content">Pre-course assessment</p></li>',
+        '<li><p class="gcb-top-content">Pre-course assessment</p></li>',
         response.body)
 
     assert_contains_none_of(UNIT_HOOK_POINTS, response.body)

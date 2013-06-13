@@ -224,7 +224,7 @@ class UnitHandler(BaseHandler):
                 'activity?unit=%s&lesson=%s' % (
                     unit_id, lesson_id))
         else:
-            if not index < len(lessons) - 1:
+            if index >= len(lessons) - 1:
                 self.template_value['next_button_url'] = ''
             else:
                 next_lesson = lessons[index + 1]
@@ -292,7 +292,7 @@ class ActivityHandler(BaseHandler):
             'unit?unit=%s&lesson=%s' % (unit_id, lesson_id))
 
         # Format next button.
-        if not index < len(lessons) - 1:
+        if index >= len(lessons) - 1:
             self.template_value['next_button_url'] = ''
         else:
             next_lesson = lessons[index + 1]
@@ -663,6 +663,9 @@ class ReviewHandler(BaseHandler):
         """Handles POST requests, when a reviewer submits a review."""
         student = self.personalize_page_and_get_enrolled()
         if not student:
+            return
+
+        if not self.assert_xsrf_token_or_fail(self.request, 'review-post'):
             return
 
         course = self.get_course()

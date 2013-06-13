@@ -57,6 +57,12 @@ SCHEMA = {
             'questionHTML': STRING,
             'lesson': STRING,
             'choices': [STRING, CORRECT],
+            # The fractional score for each choice in this question, if it is
+            # multiple-choice. Each of these values should be between 0.0 and
+            # 1.0, inclusive.
+            'choiceScores': [FLOAT],
+            # The weight given to the entire question.
+            'weight': INTEGER,
             'multiLine': BOOLEAN,
             'correctAnswerNumeric': FLOAT,
             'correctAnswerString': STRING,
@@ -1046,7 +1052,7 @@ class Verifier(object):
             unit_lessons = []
             for lesson in lessons:
                 if lesson.unit_id == unit.unit_id:
-                    if not lesson.unit_title == unit.title:
+                    if lesson.unit_title != unit.title:
                         raise Exception(''.join([
                             'A unit_title of a lesson (id=%s) must match ',
                             'title of a unit (id=%s) the lesson belongs to.'

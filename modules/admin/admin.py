@@ -26,6 +26,7 @@ import urllib
 from appengine_config import PRODUCTION_MODE
 from common import jinja_filters
 from common import safe_dom
+from common import tags
 from controllers import sites
 from controllers.utils import ReflectiveRequestHandler
 import jinja2
@@ -253,11 +254,65 @@ class AdminHandler(
             perf_counters, 'In-process Performance Counters (local/global)')
         self.render_page(template_values)
 
+    def _make_routes_dom(self, parent_element, routes, caption):
+        """Renders routes as DOM."""
+        if routes:
+            # sort routes
+            all_routes = []
+            for route in routes:
+                if route:
+                    all_routes.append(str(route))
+
+            # render as DOM
+            ul = safe_dom.Element('ul')
+            parent_element.add_child(ul)
+
+            ul.add_child(safe_dom.Element('li').add_text(caption))
+            ul2 = safe_dom.Element('ul')
+            ul.add_child(ul2)
+            for route in sorted(all_routes):
+                if route:
+                    ul2.add_child(safe_dom.Element('li').add_text(route))
+
     def get_deployment(self):
         """Shows server environment and deployment information page."""
         template_values = {}
         template_values['page_title'] = self.format_title('Deployment')
         template_values['page_description'] = messages.DEPLOYMENT_DESCRIPTION
+
+        # modules
+        module_content = safe_dom.NodeList()
+        module_content.append(
+            safe_dom.Element('h3').add_text('Custom Modules'))
+        ol = safe_dom.Element('ol')
+        module_content.append(ol)
+        for name in sorted(custom_modules.Registry.registered_modules.keys()):
+            enabled_text = ''
+            if name not in custom_modules.Registry.enabled_module_names:
+                enabled_text = ' (disabled)'
+
+            li = safe_dom.Element('li').add_text('%s%s' % (name, enabled_text))
+            ol.add_child(li)
+
+            amodule = custom_modules.Registry.registered_modules.get(name)
+            self._make_routes_dom(
+                li, amodule.global_routes, 'Global Routes')
+            self._make_routes_dom(
+                li, amodule.namespaced_routes, 'Namespaced Routes')
+
+        # Custom tags.
+        tag_content = safe_dom.NodeList()
+        tag_content.append(
+            safe_dom.Element('h3').add_text('Custom Tags'))
+        ol = safe_dom.Element('ol')
+        tag_content.append(ol)
+        tag_bindings = tags.get_tag_bindings()
+        for name in sorted(tag_bindings.keys()):
+            clazz = tag_bindings.get(name)
+            tag = clazz()
+            vendor = tag.vendor()
+            ol.add_child(safe_dom.Element('li').add_text(
+                '%s: %s: %s' % (name, tag.__class__.__name__, vendor)))
 
         # Yaml file content.
         yaml_content = safe_dom.NodeList()
@@ -280,6 +335,10 @@ class AdminHandler(
 
         template_values['main_content'] = safe_dom.NodeList().append(
             self.render_dict(app_dict, 'About the Application')
+        ).append(
+            module_content
+        ).append(
+            tag_content
         ).append(
             yaml_content
         ).append(
@@ -466,7 +525,7 @@ class AdminHandler(
         content = safe_dom.NodeList()
         content.append(
             safe_dom.Element(
-                'a', id='add_course', className='gcb-button pull-right',
+                'a', id='add_course', className='gcb-button gcb-pull-right',
                 role='button', href='admin?action=add_course'
             ).add_text('Add Course')
         ).append(

@@ -30,6 +30,7 @@ import modules.admin.admin
 import modules.announcements.announcements
 import modules.courses.courses
 import modules.dashboard.dashboard
+import modules.oauth2.oauth2
 import modules.oeditor.oeditor
 import modules.review.review
 
@@ -38,13 +39,16 @@ import modules.review.review
 debug = not appengine_config.PRODUCTION_MODE
 #debug = True
 
-# init and enable all known modules
+# init and enable most known modules
 modules.oeditor.oeditor.register_module().enable()
 modules.admin.admin.register_module().enable()
 modules.dashboard.dashboard.register_module().enable()
 modules.announcements.announcements.register_module().enable()
 modules.review.review.register_module().enable()
 modules.courses.courses.register_module().enable()
+
+# register modules that are not enabled by default.
+modules.oauth2.oauth2.register_module()
 
 # compute all possible routes
 global_routes, namespaced_routes = custom_modules.Registry.get_all_routes()

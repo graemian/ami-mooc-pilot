@@ -125,6 +125,9 @@ _COURSE_YAML_PATH_SUFFIX = 'course.yaml'
 _INTERNAL_DATASTORE_KIND_REGEX = re.compile(r'^__.*__$')
 # Path prefix strings from local disk that will be included in the archive.
 _LOCAL_WHITELIST = frozenset([_COURSE_YAML_PATH_SUFFIX, 'assets', 'data'])
+# Path prefix strings that are subdirectories of the whitelist that we actually
+# want to exclude because they aren't userland code and will cause conflicts.
+_LOCAL_WHITELIST_EXCLUDES = frozenset(['assets/lib'])
 # logging.Logger. Module logger.
 _LOG = logging.getLogger('coursebuilder.tools.etl')
 logging.basicConfig()
@@ -436,7 +439,10 @@ def _download_course(context, course, archive_path, course_url_prefix):
     for external_path in datastore_files:
         internal_path = _Archive.get_internal_path(external_path)
         stream = _get_stream(context, external_path)
-        entity = _ManifestEntity(internal_path, stream.metadata.is_draft)
+        is_draft = False
+        if stream.metadata and hasattr(stream.metadata, 'is_draft'):
+            is_draft = stream.metadata.is_draft
+        entity = _ManifestEntity(internal_path, is_draft)
         archive.add(internal_path, stream.read())
         manifest.add(entity)
     _LOG.info('Adding files from filesystem')
@@ -468,15 +474,15 @@ def _download_datastore(
         json_path = os.path.join(
             os.path.dirname(archive_path), '%s.json' % found_type)
         _LOG.info(
-            'Adding entities of type %s to temporary file %s' % (
-                found_type, json_path))
+            'Adding entities of type %s to temporary file %s',
+            found_type, json_path)
         json_file = transforms.JsonFile(json_path)
         json_file.open('w')
         _process_models(db.class_for_kind(found_type), json_file, batch_size)
         json_file.close()
         internal_path = _Archive.get_internal_path(
             os.path.basename(json_file.name))
-        _LOG.info('Adding %s to archive' % internal_path)
+        _LOG.info('Adding %s to archive', internal_path)
         archive.add_local_file(json_file.name, internal_path)
         manifest.add(_ManifestEntity(internal_path, False))
         _LOG.info('Removing temporary file ' + json_file.name)
@@ -488,7 +494,8 @@ def _filter_filesystem_files(files):
     """Filters out unnecessary files from a local filesystem.
 
     If we just read from disk, we'll pick up and archive lots of files that we
-    don't need to upload later.
+    don't need to upload later, plus non-userland code that on reupload will
+    shadow the system versions (views, assets/lib, etc.).
 
     Args:
         files: list of string. Absolute file paths.
@@ -496,9 +503,15 @@ def _filter_filesystem_files(files):
     Returns:
         List of string. Absolute filepaths we want to archive.
     """
-    return [
-        f for f in files if _remove_bundle_root(f).split('/')[0]
-        in _LOCAL_WHITELIST]
+    filtered_files = []
+    for path in files:
+        relative_name = _remove_bundle_root(path)
+        not_in_excludes = not any(
+            [relative_name.startswith(e) for e in _LOCAL_WHITELIST_EXCLUDES])
+        head_directory = relative_name.split(os.path.sep)[0]
+        if not_in_excludes and head_directory in _LOCAL_WHITELIST:
+            filtered_files.append(path)
+    return filtered_files
 
 
 def _finalize_download(archive, manifest):
@@ -571,8 +584,8 @@ def _remove_bundle_root(path):
     """Removes BUNDLE_ROOT prefix from a path."""
     if path.startswith(appengine_config.BUNDLE_ROOT):
         path = path.split(appengine_config.BUNDLE_ROOT)[1]
-    # Path must not start with / so it is os.path.join()able.
-    if path.startswith('/'):
+    # Path must not start with path separator so it is os.path.join()able.
+    if path.startswith(os.path.sep):
         path = path[1:]
     return path
 
@@ -646,7 +659,7 @@ def _process_models(kind, json_file, batch_size):
             break
         total_count += batch_count
         if not total_count % reportable_chunk:
-            _LOG.info('Loaded records: %s' % total_count)
+            _LOG.info('Loaded records: %s', total_count)
 
 
 @_retry(message='Fetching datastore entity batch failed; retrying')
@@ -695,9 +708,9 @@ def _run_custom(parsed_args):
 
 
 def _upload(upload_type, archive_path, course_url_prefix):
-    _LOG.info((
-        'Processing course with URL prefix %s from archive path %s' % (
-            course_url_prefix, archive_path)))
+    _LOG.info(
+        'Processing course with URL prefix %s from archive path %s',
+        course_url_prefix, archive_path)
     context = etl_lib.get_context(course_url_prefix)
     if not context:
         _die('No course found with course_url_prefix %s' % course_url_prefix)
@@ -747,7 +760,7 @@ def _upload_course(context, archive_path, course_url_prefix):
         _LOG.info('Uploaded ' + external_path)
     _clear_course_cache(context)
     _LOG.info(
-        'Done; %s entit%s uploaded' % (count, 'y' if count == 1 else 'ies'))
+        'Done; %s entit%s uploaded', count, 'y' if count == 1 else 'ies')
 
 
 def _upload_datastore():
@@ -784,11 +797,11 @@ def main(parsed_args, environment_class=None):
     _import_entity_modules()
     if not environment_class:
         environment_class = remote.Environment
-    _LOG.info('Mode is %s' % parsed_args.mode)
+    _LOG.info('Mode is %s', parsed_args.mode)
     _LOG.info(
-        'Target is url %s from application_id %s on server %s' % (
-            parsed_args.course_url_prefix, parsed_args.application_id,
-            parsed_args.server))
+        'Target is url %s from application_id %s on server %s',
+        parsed_args.course_url_prefix, parsed_args.application_id,
+        parsed_args.server)
     environment_class(
         parsed_args.application_id, parsed_args.server).establish()
     if parsed_args.mode == _MODE_DOWNLOAD:

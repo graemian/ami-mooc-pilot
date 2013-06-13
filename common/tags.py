@@ -93,7 +93,7 @@ class ResourcesHandler(webapp2.RequestHandler):
         if not path.startswith(os.path.join('extensions', 'tags')):
             self.error(404)
 
-        if not os.path.basename(os.path.dirname(path)) == 'resources':
+        if os.path.basename(os.path.dirname(path)) != 'resources':
             self.error(404)
 
         resource_file = os.path.join(appengine_config.BUNDLE_ROOT, path)
@@ -112,6 +112,21 @@ class ResourcesHandler(webapp2.RequestHandler):
             self.response.write(stream.read())
         except IOError:
             self.error(404)
+
+
+class Registry(object):
+    """A class that holds all dynamically registered tags."""
+
+    _bindings = {}
+
+    @classmethod
+    def add_tag_binding(cls, tag_name, clazz):
+        """Registeres a tag name to class binding."""
+        cls._bindings[tag_name] = clazz
+
+    @classmethod
+    def get_all_tags(cls):
+        return dict(cls._bindings.items())
 
 
 def get_tag_bindings():
@@ -136,7 +151,7 @@ def get_tag_bindings():
                 if issubclass(clazz, BaseTag):
                     tag_name = ('%s-%s' % (mod.__name__, name)).lower()
                     bindings[tag_name] = clazz
-    return bindings
+    return dict(bindings.items() + Registry.get_all_tags().items())
 
 
 def html_to_safe_dom(html_string):
@@ -156,7 +171,10 @@ def html_to_safe_dom(html_string):
         if elt.tag in tag_bindings:
             elt = tag_bindings[elt.tag]().render(elt)
 
-        out_elt = safe_dom.Element(elt.tag)
+        if elt.tag.lower() == 'script':
+            out_elt = safe_dom.ScriptElement()
+        else:
+            out_elt = safe_dom.Element(elt.tag)
         out_elt.add_attribute(**elt.attrib)
         if elt.text:
             out_elt.add_text(elt.text)

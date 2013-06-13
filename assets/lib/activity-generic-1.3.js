@@ -114,7 +114,7 @@ function generateMultipleChoiceQuestion(params, domRoot, index) {
   });
 
   domRoot.append('<br>');
-  domRoot.append('<p/><button class="gcb-button gcb-button-primary" ' +
+  domRoot.append('<p/><button class="gcb-button" ' +
       'id="submit_' + tag + '">' + trans.CHECK_ANSWER_TEXT + '</button>');
   domRoot.append(
       '<p/><textarea style="width: 600px; height: 50px;" readonly="true" ' +
@@ -262,7 +262,7 @@ function generateMultipleChoiceGroupQuestion(params, domRoot, index) {
   var toplevel_tag = getFreshTag();
 
   domRoot.append(
-      '<p/><button class="gcb-button gcb-button-primary" id="submit_' +
+      '<p/><button class="gcb-button" id="submit_' +
       toplevel_tag + '">' + trans.CHECK_ANSWERS_TEXT + '</button>');
   domRoot.append(
       '<p/><textarea style="width: 600px; height: 100px;" readonly="true" ' +
@@ -386,12 +386,12 @@ function generateFreetextQuestion(params, domRoot, index) {
       '&nbsp;&nbsp;<input type="text" style="width: 400px; ' +
       'class="alphanumericOnly" id="input_' + tag + '">');
   if (correctAnswerOutput && incorrectAnswerOutput) {
-    domRoot.append('<p/><button class="gcb-button gcb-button-primary" ' +
+    domRoot.append('<p/><button class="gcb-button" ' +
         'id="submit_' + tag + '">' + trans.CHECK_ANSWER_TEXT + '</button>');
   }
   if (showAnswerOutput) {
     domRoot.append(
-        '<p/><button class="gcb-button gcb-button-primary" ' +
+        '<p/><button class="gcb-button" ' +
         'id="skip_and_show_' + tag + '">' +
         showAnswerPrompt + '</button>');
   }
@@ -563,14 +563,14 @@ function renderAssessment(assessment, domRoot) {
 
   if (assessmentGlobals.isReviewForm) {
     domRoot.append(
-        '<br><button type="button" class="gcb-button gcb-button-primary" id="saveDraftBtn">' +
+        '<br><button type="button" class="gcb-button" id="saveDraftBtn">' +
         trans.SAVE_DRAFT_TEXT + '</button>&nbsp;&nbsp;' +
-        '<button type="button" class="gcb-button gcb-button-primary" id="submitAnswersBtn">' +
+        '<button type="button" class="gcb-button" id="submitAnswersBtn">' +
         trans.SUBMIT_REVIEW_TEXT + '</button>');
   } else {
     if (assessment.checkAnswers) {
       domRoot.append(
-          '<button type="button" class="gcb-button gcb-button-primary" id="checkAnswersBtn">' +
+          '<button type="button" class="gcb-button" id="checkAnswersBtn">' +
           trans.CHECK_ANSWERS_TEXT + '</button><p/>');
       domRoot.append('<p/><textarea style="width: 600px; height: 120px;" ' +
           'readonly="true" id="answerOutput"></textarea>');
@@ -580,19 +580,29 @@ function renderAssessment(assessment, domRoot) {
       buttonText = trans.SUBMIT_ASSIGNMENT_TEXT;
     }
     domRoot.append(
-        '<br><button type="button" class="gcb-button gcb-button-primary" id="submitAnswersBtn">' +
+        '<br><button type="button" class="gcb-button" id="submitAnswersBtn">' +
         buttonText + '</button>');
   }
 
   function checkOrSubmitAnswers(submitAnswers) {
     $('#answerOutput').html('');
 
+    var numCorrect = 0;
     var scoreArray = [];
     var lessonsToRead = [];
     var userInput = [];
+    // The student's score.
+    var totalScore = 0;
+    // The maximum possible score.
+    var totalWeight = 0;
 
     $.each(assessment.questionsList, function(questionNum, q) {
+      // The score of the student for this question, independent of the
+      // question's weight.
+      var score = 0;
       var isCorrect = false;
+      var weight = (q.weight || 1);
+      totalWeight += weight;
 
       if (q.choices) {
         var userInputRecorded = false;
@@ -600,6 +610,21 @@ function renderAssessment(assessment, domRoot) {
         for (var i = 0; i < radioGroup.length; i++) {
           if (radioGroup[i].checked) {
             isCorrect = radioGroup[i].value == 'correct';
+
+            // The length of the choiceScores array must be the same as the
+            // length of the radioGroup, otherwise this is a badly-formatted
+            // question and the choiceScores array is ignored.
+            // TODO(sll): This, and the constraint that q.scores should be a
+            // list of floats between 0.0 and 1.0, should be validated at the
+            // time the question specification is entered.
+            if (q.choiceScores && q.choiceScores.length == radioGroup.length) {
+              score = q.choiceScores[i];
+            } else {
+              if (isCorrect) {
+                score = 1;
+                numCorrect++;
+              }
+            }
 
             userInputRecorded = true;
             userInput.push({
@@ -615,31 +640,36 @@ function renderAssessment(assessment, domRoot) {
               'index': questionNum, 'type': 'choices', 'value': null,
               'correct': isCorrect});
         }
-      }
-      else if (q.correctAnswerString) {
+      } else if (q.correctAnswerString) {
         var answerVal = $('#q' + questionNum).val();
         answerVal = answerVal.replace(/^\s+/,''); // trim leading spaces
         answerVal = answerVal.replace(/\s+$/,''); // trim trailing spaces
 
         isCorrect = (
             answerVal.toLowerCase() == q.correctAnswerString.toLowerCase());
+        if (isCorrect) {
+          score = 1;
+          numCorrect++;
+        }
 
         userInput.push({
             'index': questionNum, 'type': 'string', 'value': answerVal,
             'correct': isCorrect});
-      }
-      else if (q.correctAnswerRegex) {
+      } else if (q.correctAnswerRegex) {
         var answerVal = $('#q' + questionNum).val();
         answerVal = answerVal.replace(/^\s+/,''); // trim leading spaces
         answerVal = answerVal.replace(/\s+$/,''); // trim trailing spaces
 
         isCorrect = q.correctAnswerRegex.test(answerVal);
+        if (isCorrect) {
+          score = 1;
+          numCorrect++;
+        }
 
         userInput.push({
             'index': questionNum, 'type': 'regex', 'value': answerVal,
             'correct': isCorrect});
-      }
-      else if (q.correctAnswerNumeric) {
+      } else if (q.correctAnswerNumeric) {
         // allow for some small floating-point leeway
         var answerNum = parseFloat($('#q' + questionNum).val());
         var EPSILON = 0.001;
@@ -647,6 +677,8 @@ function renderAssessment(assessment, domRoot) {
         if ((q.correctAnswerNumeric - EPSILON <= answerNum) &&
             (answerNum <= q.correctAnswerNumeric + EPSILON)) {
           isCorrect = true;
+          score = 1;
+          numCorrect++;
         }
 
         userInput.push({
@@ -654,7 +686,8 @@ function renderAssessment(assessment, domRoot) {
             'correct': isCorrect});
       }
 
-      scoreArray.push(isCorrect);
+      scoreArray.push(score * weight);
+      totalScore += score * weight;
 
       if (!isCorrect && q.lesson) {
         lessonsToRead.push(q.lesson);
@@ -664,14 +697,7 @@ function renderAssessment(assessment, domRoot) {
 
     var numQuestions = assessment.questionsList.length;
 
-    var numCorrect = 0;
-    $.each(scoreArray, function(i, e) {
-      if (e) {
-        numCorrect++;
-      }
-    });
-
-    var score = ((numCorrect / numQuestions) * 100).toFixed(2);
+    var percentScore = ((totalScore / totalWeight) * 100).toFixed(2);
 
     var assessmentType = getParamFromUrlByName('name') || 'unnamed assessment';
 
@@ -713,7 +739,7 @@ function renderAssessment(assessment, domRoot) {
 
       myInput = document.createElement('input');
       myInput.setAttribute('name', 'score');
-      myInput.setAttribute('value', score);
+      myInput.setAttribute('value', percentScore);
       myForm.appendChild(myInput);
 
       myInput = document.createElement('input');
@@ -754,15 +780,15 @@ function renderAssessment(assessment, domRoot) {
           'num_correct': numCorrect});
 
       // display feedback to the user
-      var outtext = trans.YOUR_SCORE_TEXT + " " + score + '% (' + numCorrect + '/' +
-          numQuestions + ').\n\n';
+      var outtext = trans.YOUR_SCORE_TEXT + " " + percentScore + '% (' + totalScore.toFixed(0) + '/' +
+          totalWeight + ').\n\n';
 
       if (lessonsToRead.length > 0) {
         outtext += trans.LESSONS_TO_REVIEW_TEXT + ': ' + lessonsToRead.join(', ') +
             '\n\n';
       }
 
-      outtext += (score >= 100 ? trans.PERFECT_SCORE_SAVE_TEXT : trans.GENERIC_SAVE_TEXT);
+      outtext += (percentScore >= 100 ? trans.PERFECT_SCORE_SAVE_TEXT : trans.GENERIC_SAVE_TEXT);
       $('#answerOutput').html(outtext);
     }
   }
