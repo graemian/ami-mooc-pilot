@@ -17,6 +17,9 @@
         </p>
 
       {% else %}
+
+        <script>_gaq.push(['_trackEvent', 'enroll', 'submit', '{{ email }}']);</script>
+
         <p class="top_content">
           {# I18N: Message shown to the student immediately after registration. #}
           {{ gettext('Thank you for enrolling for %(course_title)s. Stay tuned for more information about the course which will start on %(start_date)s.', course_title=course_info.course.title, start_date=course_info.course.start_date) }}
