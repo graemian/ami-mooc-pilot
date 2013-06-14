@@ -388,6 +388,10 @@ class StudentListHandler(BaseHandler):
 
     def get(self):
 
+
+        if not(Roles.is_course_admin(self.app_context)):
+            self.redirect("preview")
+
         self.response.headers['Content-type'] = 'text/csv'
         self.response.headers['Content-disposition'] = 'attachment; filename=students.csv'
 
