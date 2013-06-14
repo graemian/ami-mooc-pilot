@@ -32,6 +32,8 @@ import webapp2
 from google.appengine.api import namespace_manager
 from google.appengine.api import users
 
+import csv
+from google.appengine.ext import db
 
 # The name of the template dict key that stores a course's base location.
 COURSE_BASE_KEY = 'gcb_course_base'
@@ -380,6 +382,30 @@ class MaterialHandler(BaseHandler):
                 extension
             )
         )
+
+
+class StudentListHandler(BaseHandler):
+
+    def get(self):
+
+        self.response.headers['Content-type'] = 'text/csv'
+        self.response.headers['Content-disposition'] = 'attachment; filename=students.csv'
+
+        x=[1,2,3];
+
+        writer = csv.writer(self.response.out)
+
+        keys = Student.all(keys_only=True).run()
+
+        writer.writerow(["Email","Name","Is Enrolled", "Enrolled On"])
+
+        for key in keys:
+
+            student=Student.get_by_key_name(key.name())
+
+            # writer.writerows(["1","2"])
+            writer.writerow([key.name(), student.name, student.is_enrolled, student.enrolled_on])
+
 
 
 class RegisterHandler(BaseHandler):

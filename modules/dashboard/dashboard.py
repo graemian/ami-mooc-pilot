@@ -155,6 +155,10 @@ class DashboardHandler(
                 'a', href='/admin').add_text('Admin'))
 
         nav.append(safe_dom.Element(
+            'a', href='/studentList').add_text('Student List'))
+
+
+        nav.append(safe_dom.Element(
             'a', href='https://code.google.com/p/course-builder/wiki/Dashboard',
             target='_blank').add_text('Help'))
 
