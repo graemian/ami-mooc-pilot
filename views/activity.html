@@ -118,13 +118,13 @@
             <div class="gcb-prev-button">
               {% if back_button_url %}
                 {# I18N: Text on the navigation button at the end of a lesson page. #}
-                <a href="{{ back_button_url }}" onclick="_gaq.push(['_trackEvent', 'navigation', 'prev'])"> {{ gettext('Previous Page') }} </a>
+                <a href="{{ back_button_url }}" onclick="_gaq.push(['_trackEvent', 'navigation', 'activity', 'prev'])"> {{ gettext('Previous Page') }} </a>
               {% endif %}
             </div>
             <div class="gcb-next-button">
               {% if next_button_url %}
                 {# I18N: Text on the navigation button at the end of a lesson page. #}
-                <a href="{{ next_button_url }}" onclick="_gaq.push(['_trackEvent', 'navigation', 'next'])"> {{ gettext('Next Page') }} </a>
+                <a href="{{ next_button_url }}" onclick="_gaq.push(['_trackEvent', 'navigation', 'activity', 'next'])"> {{ gettext('Next Page') }} </a>
               {% else %}
                 {# I18N: Text on the navigation button at the end of a lesson. It signals that the student has completed a unit (which is a series of lessons). #}
                 <a href="course" onclick="_gaq.push(['_trackEvent', 'navigation', 'end'])"> {{ gettext('End') }} </a>
