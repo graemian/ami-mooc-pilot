@@ -18,6 +18,10 @@
 // Original activity and assessment code written by Maggie Johnson
 // Refactored version by Philip Guo
 
+
+var ga='onclick="_gaq.push([\'_trackEvent\', \'activity\', \'checkAnswer\'])"';
+
+
 // time on page
 var gcbBeginningOfTime = new Date();
 
@@ -114,7 +118,7 @@ function generateMultipleChoiceQuestion(params, domRoot, index) {
   });
 
   domRoot.append('<br>');
-  domRoot.append('<p/><button class="gcb-button" ' +
+  domRoot.append('<p/><button class="gcb-button" ' + ga +
       'id="submit_' + tag + '">' + trans.CHECK_ANSWER_TEXT + '</button>');
   domRoot.append(
       '<p/><textarea style="width: 600px; height: 50px;" readonly="true" ' +
@@ -386,7 +390,7 @@ function generateFreetextQuestion(params, domRoot, index) {
       '&nbsp;&nbsp;<input type="text" style="width: 400px; ' +
       'class="alphanumericOnly" id="input_' + tag + '">');
   if (correctAnswerOutput && incorrectAnswerOutput) {
-    domRoot.append('<p/><button class="gcb-button" ' +
+    domRoot.append('<p/><button class="gcb-button" ' + ga +
         'id="submit_' + tag + '">' + trans.CHECK_ANSWER_TEXT + '</button>');
   }
   if (showAnswerOutput) {
