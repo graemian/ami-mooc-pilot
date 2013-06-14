@@ -129,7 +129,7 @@
               <a href="{{ next_button_url }}"> {{ gettext('Next Page') }} </a>
             {% else %}
               {# I18N: Text on the navigation button at the end of a lesson. It signals that the student has completed a unit (which is a series of lessons). #}
-              <a href="course"> {{ gettext('End') }} </a>
+              <a href="course" onclick="_gaq.push(['_trackEvent', 'navigation', 'end'])"> {{ gettext('End') }} </a>
             {% endif %}
           </div>
         </div>
