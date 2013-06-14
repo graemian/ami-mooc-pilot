@@ -395,8 +395,6 @@ class StudentListHandler(BaseHandler):
         self.response.headers['Content-type'] = 'text/csv'
         self.response.headers['Content-disposition'] = 'attachment; filename=students.csv'
 
-        x=[1,2,3];
-
         writer = csv.writer(self.response.out)
 
         keys = Student.all(keys_only=True).run()
@@ -407,7 +405,6 @@ class StudentListHandler(BaseHandler):
 
             student=Student.get_by_key_name(key.name())
 
-            # writer.writerows(["1","2"])
             writer.writerow([key.name(), student.name, student.is_enrolled, student.enrolled_on])
 
 
