@@ -240,6 +240,23 @@ class UnitHandler(BaseHandler):
                 self.get_progress_tracker().get_lesson_progress(
                     student, unit_id))
 
+
+        if unit.index==6:
+            lesson.slides=False;
+            lesson.transcript=False;
+            lesson.audio=False;
+
+        elif unit.index==7:
+            lesson.slides=False;
+            lesson.transcript=False;
+            lesson.audio=True;
+
+        else:
+            lesson.slides=True;
+            lesson.transcript=True;
+            lesson.audio=True;
+
+
         self.render('unit.html')
 
 

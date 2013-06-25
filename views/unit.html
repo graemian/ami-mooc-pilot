@@ -77,15 +77,23 @@
               <div class="gcb-col-3">
                 <p style="float:right; margin-top: 0px;">
 
+                    {% if lesson.slides %}
                   <a role="button" class="gcb-button gcb-button-primary" href="/material/slides?unit={{unit.index}}&lesson={{lesson.index}}" target="_blank">
                     Slides
                   </a>
+                    {% endif %}
+
+                    {% if lesson.transcript %}
                   <a role="button" class="gcb-button gcb-button-primary" href="/material/transcript?unit={{unit.index}}&lesson={{lesson.index}}" target="_blank">
                     Transcript
                   </a>
+                    {% endif %}
+
+                    {% if lesson.audio %}
                   <a role="button" class="gcb-button gcb-button-primary" href="/material/audio?unit={{unit.index}}&lesson={{lesson.index}}" target="_blank">
                     Audio
                   </a>
+                    {% endif %}
 
                 </p>
               </div>
