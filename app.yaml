@@ -1,5 +1,5 @@
 application: launchpad-dev6  # FIXME: Replace this with your application id
-version: 20
+version: 22
 runtime: python27
 api_version: 1
 threadsafe: false
