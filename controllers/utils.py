@@ -32,7 +32,7 @@ import webapp2
 from google.appengine.api import namespace_manager
 from google.appengine.api import users
 
-import csv
+import csv, codecs, cStringIO
 from google.appengine.ext import db
 
 # The name of the template dict key that stores a course's base location.
@@ -384,6 +384,35 @@ class MaterialHandler(BaseHandler):
         )
 
 
+class UnicodeWriter:
+    """
+    A CSV writer which will write rows to CSV file "f",
+    which is encoded in the given encoding.
+    """
+
+    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
+        # Redirect output to a queue
+        self.queue = cStringIO.StringIO()
+        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
+        self.stream = f
+        self.encoder = codecs.getincrementalencoder(encoding)()
+
+    def writerow(self, row):
+        self.writer.writerow([s.encode("utf-8") for s in row])
+        # Fetch UTF-8 output from the queue ...
+        data = self.queue.getvalue()
+        data = data.decode("utf-8")
+        # ... and reencode it into the target encoding
+        data = self.encoder.encode(data)
+        # write to the target stream
+        self.stream.write(data)
+        # empty queue
+        self.queue.truncate(0)
+
+    def writerows(self, rows):
+        for row in rows:
+            self.writerow(row)
+
 class StudentListHandler(BaseHandler):
 
     def get(self):
@@ -395,7 +424,7 @@ class StudentListHandler(BaseHandler):
         self.response.headers['Content-type'] = 'text/csv'
         self.response.headers['Content-disposition'] = 'attachment; filename=students.csv'
 
-        writer = csv.writer(self.response.out)
+        writer = UnicodeWriter(self.response.out)
 
         keys = Student.all(keys_only=True).run()
 
@@ -405,7 +434,7 @@ class StudentListHandler(BaseHandler):
 
             student=Student.get_by_key_name(key.name())
 
-            writer.writerow([key.name(), student.name, student.is_enrolled, student.enrolled_on])
+            writer.writerow([key.name(), student.name, unicode(student.is_enrolled), unicode(student.enrolled_on)])
 
 
 
