@@ -413,6 +413,8 @@ class UnicodeWriter:
         for row in rows:
             self.writerow(row)
 
+import json
+
 class StudentListHandler(BaseHandler):
 
     def get(self):
@@ -424,17 +426,55 @@ class StudentListHandler(BaseHandler):
         self.response.headers['Content-type'] = 'text/csv'
         self.response.headers['Content-disposition'] = 'attachment; filename=students.csv'
 
+
+        course = self.get_course()
+
+        assessments=[]
+
+        for unit in course.get_units():
+            if (unit.type=="A"):
+                assessments.append(str(unit.unit_id))
+
+
         writer = UnicodeWriter(self.response.out)
 
         keys = Student.all(keys_only=True).run()
 
-        writer.writerow(["Email","Name","Is Enrolled", "Enrolled On"])
+        rows=[]
 
         for key in keys:
 
             student=Student.get_by_key_name(key.name())
 
-            writer.writerow([key.name(), student.name, unicode(student.is_enrolled), unicode(student.enrolled_on)])
+            rec={"email": key.name(), "name": student.name, "enrolled": unicode(student.is_enrolled), "dateEnrolled": unicode(student.enrolled_on) }
+
+            if (student.scores):
+                scores=json.loads(student.scores)
+
+                for assessmentName, score in scores.iteritems():
+                    rec[assessmentName]=str(score)
+
+
+            rows.append(rec)
+
+        headerRow = ["Email", "Name", "Is Enrolled", "Enrolled On"]
+
+        for assessmentName in assessments:
+            headerRow.append(course.find_unit_by_id(assessmentName).title)
+
+        writer.writerow(headerRow)
+
+        for row in rows:
+
+            renderedRow=[row["email"],row["name"],row["enrolled"],row["dateEnrolled"]]
+
+            for assessmentName in assessments:
+                if (assessmentName in row):
+                    renderedRow.append(row[assessmentName])
+                else:
+                    renderedRow.append("")
+
+            writer.writerow(renderedRow)
 
 
 
